@@ -207,7 +207,7 @@
               <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>在iOS/Mac上编译源代码后，会产生一个Mach-O的可执行文件(在Android上是EFI文件，Windows上是PE文件)。</p>
 <pre><code class="hljs mermaid">graph LR
     iOS&#x2F;Mac-- 编译成的可执行文件 --&gt;汇编-- 对应 --&gt;机器码1010</code></pre>
-<p><img src="image/ass_to_1010.jpg" srcset="/img/loading.gif" alt="图片alt"></p>
+<p><img src="/img/ass_to_1010.jpg" srcset="/img/loading.gif" alt="图片alt"></p>
 <h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><p>对于计算机来说，完成一个任务离不开三类操作：</p>
 <ol>
 <li>数据的地址。</li>
@@ -218,7 +218,7 @@
 <ol>
 <li>通过地址总线指定要访问的内存地址</li>
 <li>通过控制总线指定需要读取</li>
-<li>通过数据总线将数据传到CUP</li>
+<li>通过数据总线将数据传到CPU</li>
 </ol>
 <p>当写时:</p>
 <ol>
@@ -227,7 +227,7 @@
 <li>通过数据总线将数据传到内存</li>
 </ol>
 <p>所以地址总线的”宽度“限制了寻址的大小，假如地址总线有16根，那么最大寻址是2的16次方。</p>
-<p>地址送到地址总线前，是经过CUP内部的一个地址加法器处理后再送出来，主要是因为程序为了方便都是把内存进行分段管理，所以给出一个地址都是:<code>段地址+偏移地址</code>。<br><img src="image/assemble_transfer.jpg" srcset="/img/loading.gif" alt="图片alt"></p>
+<p>地址送到地址总线前，是经过CPU内部的一个地址加法器处理后再送出来，主要是因为程序为了方便都是把内存进行分段管理，所以给出一个地址都是:<code>段地址+偏移地址</code>。<br><img src="image/assemble_transfer.jpg" srcset="/img/loading.gif" alt="图片alt"></p>
 <h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><p>每个CPU架构都会有对应的寄存器，8086寄存器大概分为三类如下：</p>
 <ul>
 <li>通用寄存器: 任意使用，自己控制</li>
