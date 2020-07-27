@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.2k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      12
+      14
        分钟
     </span>
   
@@ -275,8 +275,8 @@ DS----&gt; |<span class="hljs-string">------------------------------------------
         |<span class="hljs-string">                                                   </span>|
 SS----&gt; |<span class="hljs-string">-------------------------------------------------- </span>|<span class="hljs-string">                                             </span>
 <span class="hljs-string">        </span>|<span class="hljs-string">                                                   </span>|
-BP----&gt; |<span class="hljs-string">                       栈段                         </span>|
-        |<span class="hljs-string">                                                   </span>|
+SP----&gt; |<span class="hljs-string">                       栈段                         </span>|
+BP----&gt; |<span class="hljs-string">                                                   </span>|
         |<span class="hljs-string">                                                   </span>|
         -----------------------------------------------------
 
@@ -314,7 +314,7 @@ FLAG -&gt; ---------------------------------------------------------------------
 
 <span class="hljs-string">高地址</span></code></pre>
 
-<p>一个栈帧包含方法调用时所需要保存的”现场数据“：</p>
+<p>一个栈帧包含方法调用时所需要保存的“现场数据”：</p>
 <ol>
 <li>方法需要接受参数，以便使用，所以先把参数压栈保存起来，等待使用。</li>
 <li>方法调用完后需要回到调用处，所以需要把返回地址压栈，以便返回执行下一行代码。</li>
@@ -322,8 +322,82 @@ FLAG -&gt; ---------------------------------------------------------------------
 <li>当前方法所使用到的局部变量全部压栈保存，以便之后使用。</li>
 <li>保存可能需要使用到的寄存器的值，以便方法返回后能恢复。</li>
 </ol>
-<p>当方法调用完毕，会执行SP-N，将栈顶指针指向没调用前的地址，之前的栈数据依然会存在，所以为了安全，每当申请局部变量区域会统一把区域存放CC，CC为断点信号，防止访问到垃圾数据。</p>
-<h2 id="8086寄存器"><a href="#8086寄存器" class="headerlink" title="8086寄存器"></a>8086寄存器</h2>
+<p>当方法调用完毕，会执行SP-N，将栈顶指针指向没调用前的地址，之前的栈数据是依然会存在，所以为了安全，每当申请局部变量区域会统一把区域存放<code>CC</code>，<code>CC</code>为断点信号，防止访问到垃圾数据。</p>
+<h2 id="8086汇编指令"><a href="#8086汇编指令" class="headerlink" title="8086汇编指令"></a>8086汇编指令</h2><table>
+<thead>
+<tr>
+<th>指令名称</th>
+<th align="center">指令全称</th>
+<th align="right">作用</th>
+<th align="right">例子</th>
+<th align="right">C/C++</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mov</td>
+<td align="center">move</td>
+<td align="right">移动值到寄存器</td>
+<td align="right">mov ax 10h</td>
+<td align="right">int a = 10</td>
+</tr>
+<tr>
+<td>add</td>
+<td align="center"></td>
+<td align="right">两个值双加</td>
+<td align="right">add ax 10h</td>
+<td align="right">a = a + 10</td>
+</tr>
+<tr>
+<td>sub</td>
+<td align="center">subtract</td>
+<td align="right">两个值相减</td>
+<td align="right">sub ax 10h</td>
+<td align="right">a = a - 10</td>
+</tr>
+<tr>
+<td>call</td>
+<td align="center"></td>
+<td align="right">调用一个函数</td>
+<td align="right">call method</td>
+<td align="right">method()</td>
+</tr>
+<tr>
+<td>ret</td>
+<td align="center">return</td>
+<td align="right">函数返回</td>
+<td align="right">ret</td>
+<td align="right">return</td>
+</tr>
+<tr>
+<td>push</td>
+<td align="center"></td>
+<td align="right">将值存到栈顶</td>
+<td align="right">push 10h</td>
+<td align="right">stack.push(10)</td>
+</tr>
+<tr>
+<td>pop</td>
+<td align="center"></td>
+<td align="right">将值存从栈顶弹出</td>
+<td align="right">pop ax</td>
+<td align="right">a = stack.pop()</td>
+</tr>
+<tr>
+<td>jmp</td>
+<td align="center">jump</td>
+<td align="right">改变IP的指向，从而改变代码的执行顺序</td>
+<td align="right">jmp 0x667788f</td>
+<td align="right">go to 0x667788f</td>
+</tr>
+<tr>
+<td>cmp</td>
+<td align="center">compare</td>
+<td align="right">比较两个值，比较后的结果会影响FLAG的ZP标记位</td>
+<td align="right">jmp 0x667788f</td>
+<td align="right">go to 0x667788f</td>
+</tr>
+</tbody></table>
+
             </article>
             <hr>
             <div>
