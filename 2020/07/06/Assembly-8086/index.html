@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      1.5k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      14
+      17
        分钟
     </span>
   
@@ -323,7 +323,82 @@ FLAG -&gt; ---------------------------------------------------------------------
 <li>保存可能需要使用到的寄存器的值，以便方法返回后能恢复。</li>
 </ol>
 <p>当方法调用完毕，会执行SP-N，将栈顶指针指向没调用前的地址，之前的栈数据是依然会存在，所以为了安全，每当申请局部变量区域会统一把区域存放<code>CC</code>，<code>CC</code>为断点信号，防止访问到垃圾数据。</p>
-<h2 id="8086汇编指令"><a href="#8086汇编指令" class="headerlink" title="8086汇编指令"></a>8086汇编指令</h2><table>
+<h2 id="一个较完整的8086汇编代码"><a href="#一个较完整的8086汇编代码" class="headerlink" title="一个较完整的8086汇编代码"></a>一个较完整的8086汇编代码</h2><pre><code class="hljs x86asm"><span class="hljs-meta">assume</span> <span class="hljs-built_in">cs</span>:code, <span class="hljs-built_in">ds</span>:data, <span class="hljs-built_in">ss</span>:stack
+
+<span class="hljs-comment">; 栈段</span>
+stack <span class="hljs-meta">segment</span>
+    <span class="hljs-built_in">db</span> <span class="hljs-number">100</span> dup(<span class="hljs-number">0</span>)
+stack ends  
+
+<span class="hljs-comment">; 数据段</span>
+data <span class="hljs-meta">segment</span>  
+    <span class="hljs-built_in">db</span> <span class="hljs-number">100</span> dup(<span class="hljs-number">0</span>) 
+data ends
+
+<span class="hljs-comment">; 代码段</span>
+code <span class="hljs-meta">segment</span>
+<span class="hljs-symbol">start:</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">ax</span>, data
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">ds</span>, <span class="hljs-built_in">ax</span>    <span class="hljs-comment">; 手动设置ds值</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">ax</span>, stack 
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">ss</span>, <span class="hljs-built_in">ax</span>    <span class="hljs-comment">; 手动设置ss的值</span>
+    
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    <span class="hljs-keyword">push</span> <span class="hljs-number">1</span>        
+    <span class="hljs-keyword">push</span> <span class="hljs-number">2</span>                                          <span class="hljs-comment">;&lt;-----1. 参数</span>
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+
+
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    <span class="hljs-keyword">call</span> <span class="hljs-keyword">test</span>                                       <span class="hljs-comment">;&lt;-----2. 返回地址</span>
+    <span class="hljs-comment">;---------------------------------------------------------------------- </span>
+    
+    <span class="hljs-comment">; 程序退出</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">ax</span>, <span class="hljs-number">4c00h</span>
+    <span class="hljs-keyword">int</span> <span class="hljs-number">21h</span> 
+    
+<span class="hljs-comment">; 返回值放ax寄存器</span>
+<span class="hljs-comment">; 传递2个参数(放入栈中)    </span>
+<span class="hljs-symbol">test:</span>
+
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    <span class="hljs-keyword">push</span> <span class="hljs-built_in">bp</span>                                         <span class="hljs-comment">;&lt;-----3. BP地址</span>
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">bp</span>, <span class="hljs-built_in">sp</span> <span class="hljs-comment">; 保存sp之前的值：指向bp以前的值</span>
+    <span class="hljs-keyword">sub</span> <span class="hljs-built_in">sp</span>, <span class="hljs-number">4</span> <span class="hljs-comment">; 给局部变量”分配“4个字节的空间         ;&lt;-----4. 局部变量</span>
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    <span class="hljs-comment">; 保护可能会用到的寄存器</span>
+    <span class="hljs-keyword">push</span> <span class="hljs-built_in">si</span>
+    <span class="hljs-keyword">push</span> <span class="hljs-built_in">di</span>
+    <span class="hljs-keyword">push</span> <span class="hljs-built_in">bx</span>                                         <span class="hljs-comment">;&lt;-----5. 需要保存的寄存器   </span>
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+     
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    <span class="hljs-comment">; 访问栈中的参数</span>
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">ax</span>, <span class="hljs-number">0x1</span>                                     
+    <span class="hljs-keyword">add</span> <span class="hljs-built_in">ax</span>, <span class="hljs-built_in">ax</span>                                      <span class="hljs-comment">;函数逻辑</span>
+    <span class="hljs-comment">;----------------------------------------------------------------------</span>
+    
+    <span class="hljs-comment">; 恢复寄存器的值</span>
+    <span class="hljs-keyword">pop</span> <span class="hljs-built_in">bx</span>
+    <span class="hljs-keyword">pop</span> <span class="hljs-built_in">di</span>
+    <span class="hljs-keyword">pop</span> <span class="hljs-built_in">si</span>
+                       
+    <span class="hljs-keyword">mov</span> <span class="hljs-built_in">sp</span>, <span class="hljs-built_in">bp</span> <span class="hljs-comment">; 恢复sp</span>
+    <span class="hljs-keyword">pop</span> <span class="hljs-built_in">bp</span>     <span class="hljs-comment">; 恢复bp</span>
+    <span class="hljs-keyword">add</span> <span class="hljs-built_in">sp</span>, <span class="hljs-number">4</span>  <span class="hljs-comment">; 恢复栈平衡</span>
+    
+    <span class="hljs-keyword">ret</span> 
+                
+code ends  
+
+end start</code></pre>
+
+<h2 id="8086常用汇编指令"><a href="#8086常用汇编指令" class="headerlink" title="8086常用汇编指令"></a>8086常用汇编指令</h2><table>
 <thead>
 <tr>
 <th>指令名称</th>
@@ -393,8 +468,8 @@ FLAG -&gt; ---------------------------------------------------------------------
 <td>cmp</td>
 <td align="center">compare</td>
 <td align="right">比较两个值，比较后的结果会影响FLAG的ZP标记位</td>
-<td align="right">jmp 0x667788f</td>
-<td align="right">go to 0x667788f</td>
+<td align="right">cmp ax 11h</td>
+<td align="right">if (a == 11)</td>
 </tr>
 </tbody></table>
 
