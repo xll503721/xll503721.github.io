@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      30
+      31
        分钟
     </span>
   
@@ -643,10 +643,17 @@ end start</code></pre>
 </tr>
 <tr>
 <td>cbz</td>
-<td align="center">compare</td>
+<td align="center"></td>
 <td align="right">比较两个值，比较后的结果会影响FLAG的ZP标记位，如果为0跳转</td>
-<td align="right">cbz 0x667788f</td>
+<td align="right">cbz ax 0x667788f</td>
 <td align="right">if (a == 0) {0x667788f}</td>
+</tr>
+<tr>
+<td>cmp</td>
+<td align="center">compare</td>
+<td align="right">比较两个值，比较后的结果会影响FLAG的ZP标记位</td>
+<td align="right">cmp ax 11h</td>
+<td align="right">if (a == 11)</td>
 </tr>
 <tr>
 <td>ldr</td>
