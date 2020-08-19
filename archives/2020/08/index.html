@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hexo</title>
+  <title>Archives - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -42,7 +42,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 60vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -130,7 +130,7 @@
 </nav>
 
     <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/home.webp') no-repeat center center;
+         style="background: url('/img/archives.webp') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -143,10 +143,6 @@
           </div>
 
           
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
-          
         </div>
       </div>
     </div>
@@ -156,134 +152,27 @@
     
       <div class="container nopadding-md">
         <div class="py-5" id="board"
-          style=margin-top:0>
+          >
           
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-
-  <div class="row mx-auto index-card">
+<div class="list-group">
+  <p class="h4">4 posts in total.</p>
+  <hr>
+  
     
+      
+      <p class="h5">2020</p>
     
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/08/11/%E9%80%86%E5%90%91-iOS/">逆向-iOS</a>
-
-      <a href="/2020/08/11/%E9%80%86%E5%90%91-iOS/" class="index-excerpt">
-        
-        
-          
-        
-        <div>下载ipa下载不大于12.6.5版本的iTunes，该版本带app store的，可以在里面下载到ipa，下载地址：iTunes 12.6.5。由于最新的Mac已经安装不了，所以需要下载Windows版本安装在Windows里下载。
-在app store上下载的ipa是加密过的，需要使用Clutch进行解密，下载地址：Clutch
+    <a href="/2020/08/11/%E9%80%86%E5%90%91-iOS/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">逆向-iOS</span>
+      <span style="float: right;">08-11</span>
+    </a>
+  
 </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-08-11
-          </div>
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/06/Assembly-8086/">Assembly 8086&amp;ARM64</a>
-
-      <a href="/2020/07/06/Assembly-8086/" class="index-excerpt">
-        
-        
-          
-        
-        <div>编译在iOS/Mac上编译源代码后，会产生一个Mach-O的可执行文件(在Android上是EFI文件，Windows上是PE文件)。
-graph LR
-    iOS&#x2F;Mac-- 编译成的可执行文件 --&gt;汇编-- 对应 --&gt;机器码1010
-
-数据操作对于计算机来说，完成一个任务离不开三类操作：
-
-数据的地址。
-数据。
-读/写数据。
-
-当读时:
-
-通过地址总线指定要访问的</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-06
-          </div>
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/07/06/objc-msgSend/">objc_msgSend</a>
-
-      <a href="/2020/07/06/objc-msgSend/" class="index-excerpt">
-        
-        
-          
-        
-        <div></div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-07-06
-          </div>
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/06/29/hello-world/">Hello World</a>
-
-      <a href="/2020/06/29/hello-world/" class="index-excerpt">
-        
-        
-          
-        
-        <div>Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-06-29
-          </div>
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-
 
 
 
@@ -402,7 +291,7 @@ Quick</div>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "做人呢，最紧要系开心&nbsp;",
+        "Archive&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 150,

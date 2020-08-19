@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.2k 字
+      2.3k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      29
+      30
        分钟
     </span>
   
@@ -483,9 +483,9 @@ end start</code></pre>
 |<span class="hljs-string"> </span>|<span class="hljs-string">    X28     </span>|<span class="hljs-string"> ----------------------------------- </span>
 <span class="hljs-string">---------------------------------------------------------------</span>
 |<span class="hljs-string"> </span>|<span class="hljs-string">              ----------------------------------                              </span>
-|<span class="hljs-string"> </span>|<span class="hljs-string">     FP     </span>|<span class="hljs-string"> ---   栈顶寄存器                   </span>|
+|<span class="hljs-string"> </span>|<span class="hljs-string">     FP     </span>|<span class="hljs-string"> ---   栈基寄存器                   </span>|
 |<span class="hljs-string"> </span>|<span class="hljs-string">     LR     </span>|<span class="hljs-string"> ---   链接寄存器                   </span>|
-|<span class="hljs-string"> </span>|<span class="hljs-string">     SP     </span>|<span class="hljs-string"> ---   栈基寄存器                控制寄存器     </span>
+|<span class="hljs-string"> </span>|<span class="hljs-string">     SP     </span>|<span class="hljs-string"> ---   栈顶寄存器                控制寄存器     </span>
 |<span class="hljs-string"> </span>|<span class="hljs-string">     PC     </span>|<span class="hljs-string"> ---   指令寄存器                   </span>|
 |<span class="hljs-string"> </span>|<span class="hljs-string">    CPSR    </span>|<span class="hljs-string"> ---   状态寄存器                   </span>|
 |<span class="hljs-string"> </span>|<span class="hljs-string">              ----------------------------------</span>
@@ -496,7 +496,8 @@ end start</code></pre>
 <span class="hljs-string">        </span>|<span class="hljs-string"> M0</span>|<span class="hljs-string"> M1</span>|<span class="hljs-string"> M2</span>|<span class="hljs-string"> M3</span>|<span class="hljs-string"> M4</span>|<span class="hljs-string"> T </span>|<span class="hljs-string"> F </span>|<span class="hljs-string"> I </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<span class="hljs-string"> V </span>|<span class="hljs-string"> C </span>|<span class="hljs-string"> Z </span>|<span class="hljs-string"> N </span>|<span class="hljs-string">                                                                                                                 </span>
 <span class="hljs-string">        ---------------------------------------------------------------------------------------------------------------------------------</span></code></pre>
 
-<h2 id="一段较完整的ARM64汇编"><a href="#一段较完整的ARM64汇编" class="headerlink" title="一段较完整的ARM64汇编"></a>一段较完整的ARM64汇编</h2><pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> test() &#123;
+<h2 id="一段较完整的ARM64汇编"><a href="#一段较完整的ARM64汇编" class="headerlink" title="一段较完整的ARM64汇编"></a>一段较完整的ARM64汇编</h2><p><code>main.c文件</code></p>
+<pre><code class="hljs angelscript"><span class="hljs-built_in">int</span> test() &#123;
 		<span class="hljs-built_in">int</span> a = <span class="hljs-number">1</span>;
 		<span class="hljs-built_in">int</span> b = <span class="hljs-number">1</span>;
 		<span class="hljs-keyword">return</span> a + b;
@@ -606,13 +607,6 @@ end start</code></pre>
 <td align="right">a = a - 10</td>
 </tr>
 <tr>
-<td>b</td>
-<td align="center"></td>
-<td align="right">调用一个函数</td>
-<td align="right">call method</td>
-<td align="right">method()</td>
-</tr>
-<tr>
 <td>ret</td>
 <td align="center">return</td>
 <td align="right">函数返回</td>
@@ -634,18 +628,39 @@ end start</code></pre>
 <td align="right">a = stack.pop()</td>
 </tr>
 <tr>
-<td>jmp</td>
-<td align="center">jump</td>
-<td align="right">改变IP的指向，从而改变代码的执行顺序</td>
-<td align="right">jmp 0x667788f</td>
+<td>b</td>
+<td align="center"></td>
+<td align="right">无条件跳转</td>
+<td align="right">b 0x667788f</td>
 <td align="right">go to 0x667788f</td>
 </tr>
 <tr>
-<td>cmp</td>
+<td>b.xx</td>
+<td align="center"></td>
+<td align="right">有条件跳转，可以是b.eq，be.le等等</td>
+<td align="right">b.eq 0x667788f</td>
+<td align="right">if (a == 0) {goto 0x667788f}</td>
+</tr>
+<tr>
+<td>cbz</td>
 <td align="center">compare</td>
-<td align="right">比较两个值，比较后的结果会影响FLAG的ZP标记位</td>
-<td align="right">cmp ax 11h</td>
-<td align="right">if (a == 11)</td>
+<td align="right">比较两个值，比较后的结果会影响FLAG的ZP标记位，如果为0跳转</td>
+<td align="right">cbz 0x667788f</td>
+<td align="right">if (a == 0) {0x667788f}</td>
+</tr>
+<tr>
+<td>ldr</td>
+<td align="center">load register</td>
+<td align="right">从内存加载数据到寄存器</td>
+<td align="right">ldr x0 0x1</td>
+<td align="right">a = 1</td>
+</tr>
+<tr>
+<td>str</td>
+<td align="center">store register</td>
+<td align="right">从寄存器写数据到内存</td>
+<td align="right">str x0 0x1</td>
+<td align="right">a = 1</td>
 </tr>
 </tbody></table>
 <h2 id="lldb操作寄存器和内存命令"><a href="#lldb操作寄存器和内存命令" class="headerlink" title="lldb操作寄存器和内存命令"></a>lldb操作寄存器和内存命令</h2><ul>
@@ -714,6 +729,12 @@ end start</code></pre>
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/08/11/%E9%80%86%E5%90%91-iOS/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">逆向-iOS</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">
