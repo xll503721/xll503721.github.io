@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.1k 字
+      1.3k 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17
+      19
        分钟
     </span>
   
@@ -274,25 +274,25 @@ LReturnZero:
 
 <p><code>objc_msgSend</code>反汇编代码：</p>
 <pre><code class="hljs angelscript">libobjc.A.dylib`objc_msgSend:
--&gt;  <span class="hljs-number">0x1afb509a0</span> &lt;+<span class="hljs-number">0</span>&gt;:   cmp    x0, #<span class="hljs-number">0x0</span>                  ; =<span class="hljs-number">0x0</span> 
-    <span class="hljs-number">0x1afb509a4</span> &lt;+<span class="hljs-number">4</span>&gt;:   b.le   <span class="hljs-number">0x1afb50a20</span>               ; &lt;+<span class="hljs-number">128</span>&gt;
-    <span class="hljs-number">0x1afb509a8</span> &lt;+<span class="hljs-number">8</span>&gt;:   ldr    x13, [x0]
-    <span class="hljs-number">0x1afb509ac</span> &lt;+<span class="hljs-number">12</span>&gt;:  <span class="hljs-keyword">and</span>    x16, x13, #<span class="hljs-number">0xffffffff8</span>
-    <span class="hljs-number">0x1afb509b0</span> &lt;+<span class="hljs-number">16</span>&gt;:  ldr    x11, [x16, #<span class="hljs-number">0x10</span>]
-    <span class="hljs-number">0x1afb509b4</span> &lt;+<span class="hljs-number">20</span>&gt;:  <span class="hljs-keyword">and</span>    x10, x11, #<span class="hljs-number">0xffffffffffff</span>
-    <span class="hljs-number">0x1afb509b8</span> &lt;+<span class="hljs-number">24</span>&gt;:  <span class="hljs-keyword">and</span>    x12, x1, x11, lsr #<span class="hljs-number">48</span>
-    <span class="hljs-number">0x1afb509bc</span> &lt;+<span class="hljs-number">28</span>&gt;:  add    x12, x10, x12, lsl #<span class="hljs-number">4</span>
-    <span class="hljs-number">0x1afb509c0</span> &lt;+<span class="hljs-number">32</span>&gt;:  ldp    x17, x9, [x12]
-    <span class="hljs-number">0x1afb509c4</span> &lt;+<span class="hljs-number">36</span>&gt;:  cmp    x9, x1
+-&gt;  <span class="hljs-number">0x1afb509a0</span> &lt;+<span class="hljs-number">0</span>&gt;:   cmp    x0, #<span class="hljs-number">0x0</span>                  ; <span class="hljs-keyword">if</span> receiver == nil
+    <span class="hljs-number">0x1afb509a4</span> &lt;+<span class="hljs-number">4</span>&gt;:   b.le   <span class="hljs-number">0x1afb50a20</span>               ; go to <span class="hljs-number">0x1afb50a20</span>
+    <span class="hljs-number">0x1afb509a8</span> &lt;+<span class="hljs-number">8</span>&gt;:   ldr    x13, [x0]                 ; x13 = *receiver
+    <span class="hljs-number">0x1afb509ac</span> &lt;+<span class="hljs-number">12</span>&gt;:  <span class="hljs-keyword">and</span>    x16, x13, #<span class="hljs-number">0xffffffff8</span>    ; x16 = x13 &amp; <span class="hljs-number">0xffffffff8</span>
+    <span class="hljs-number">0x1afb509b0</span> &lt;+<span class="hljs-number">16</span>&gt;:  ldr    x11, [x16, #<span class="hljs-number">0x10</span>]         ; 从类对象+<span class="hljs-number">16</span>个字节的地址开始读<span class="hljs-number">8</span>个字节
+    <span class="hljs-number">0x1afb509b4</span> &lt;+<span class="hljs-number">20</span>&gt;:  <span class="hljs-keyword">and</span>    x10, x11, #<span class="hljs-number">0xffffffffffff</span> ; 得到buckets的地址放到x10
+    <span class="hljs-number">0x1afb509b8</span> &lt;+<span class="hljs-number">24</span>&gt;:  <span class="hljs-keyword">and</span>    x12, x1, x11, lsr #<span class="hljs-number">48</span>     ; x11右移<span class="hljs-number">48</span>位得到mask后，_cmd &amp; mask后得出哈希值放到x12
+    <span class="hljs-number">0x1afb509bc</span> &lt;+<span class="hljs-number">28</span>&gt;:  add    x12, x10, x12, lsl #<span class="hljs-number">4</span>     ; 从x12左移<span class="hljs-number">4</span>个位，得到bucket的index，然后把buckets的地址加上index，即buckets[index]放进x12
+    <span class="hljs-number">0x1afb509c0</span> &lt;+<span class="hljs-number">32</span>&gt;:  ldp    x17, x9, [x12]            ; 取到_cmd对应的bucket，把IMP放到x17，把SEL放到x9
+    <span class="hljs-number">0x1afb509c4</span> &lt;+<span class="hljs-number">36</span>&gt;:  cmp    x9, x1                    ; 对比缓存的bucket是否跟_cmd相等，如果是就找到缓存，否则需要继续找缓存
     <span class="hljs-number">0x1afb509c8</span> &lt;+<span class="hljs-number">40</span>&gt;:  b.ne   <span class="hljs-number">0x1afb509d8</span>               ; &lt;+<span class="hljs-number">56</span>&gt;
     <span class="hljs-number">0x1afb509cc</span> &lt;+<span class="hljs-number">44</span>&gt;:  eor    x12, x12, x1
     <span class="hljs-number">0x1afb509d0</span> &lt;+<span class="hljs-number">48</span>&gt;:  eor    x12, x12, x16
-    <span class="hljs-number">0x1afb509d4</span> &lt;+<span class="hljs-number">52</span>&gt;:  brab   x17, x12
-    <span class="hljs-number">0x1afb509d8</span> &lt;+<span class="hljs-number">56</span>&gt;:  cbz    x9, <span class="hljs-number">0x1afb50d20</span>           ; _objc_msgSend_uncached
-    <span class="hljs-number">0x1afb509dc</span> &lt;+<span class="hljs-number">60</span>&gt;:  cmp    x12, x10
-    <span class="hljs-number">0x1afb509e0</span> &lt;+<span class="hljs-number">64</span>&gt;:  b.eq   <span class="hljs-number">0x1afb509ec</span>               ; &lt;+<span class="hljs-number">76</span>&gt;
-    <span class="hljs-number">0x1afb509e4</span> &lt;+<span class="hljs-number">68</span>&gt;:  ldp    x17, x9, [x12, #<span class="hljs-number">-0x10</span>]!
-    <span class="hljs-number">0x1afb509e8</span> &lt;+<span class="hljs-number">72</span>&gt;:  b      <span class="hljs-number">0x1afb509c4</span>               ; &lt;+<span class="hljs-number">36</span>&gt;
+    <span class="hljs-number">0x1afb509d4</span> &lt;+<span class="hljs-number">52</span>&gt;:  brab   x17, x12                  ; 找到就调用起缓存bucket里的IMP，即x17
+    <span class="hljs-number">0x1afb509d8</span> &lt;+<span class="hljs-number">56</span>&gt;:  cbz    x9, <span class="hljs-number">0x1afb50d20</span>           ; 找不到调用_objc_msgSend_uncached
+    <span class="hljs-number">0x1afb509dc</span> &lt;+<span class="hljs-number">60</span>&gt;:  cmp    x12, x10                  ; 找到了buckets[<span class="hljs-number">0</span>]的位置，表示都找完了
+    <span class="hljs-number">0x1afb509e0</span> &lt;+<span class="hljs-number">64</span>&gt;:  b.eq   <span class="hljs-number">0x1afb509ec</span>               ; 调去从头
+    <span class="hljs-number">0x1afb509e4</span> &lt;+<span class="hljs-number">68</span>&gt;:  ldp    x17, x9, [x12, #<span class="hljs-number">-0x10</span>]!   ; 把buckets[i - <span class="hljs-number">1</span>]个bucket&#123;IMP, SEL&#125;加载到&#123;x17 x9&#125;
+    <span class="hljs-number">0x1afb509e8</span> &lt;+<span class="hljs-number">72</span>&gt;:  b      <span class="hljs-number">0x1afb509c4</span>               ; 寻找找到缓存回到<span class="hljs-number">0x1afb509c4</span>进行比较
     <span class="hljs-number">0x1afb509ec</span> &lt;+<span class="hljs-number">76</span>&gt;:  add    x12, x12, x11, lsr #<span class="hljs-number">44</span>
     <span class="hljs-number">0x1afb509f0</span> &lt;+<span class="hljs-number">80</span>&gt;:  ldp    x17, x9, [x12]
     <span class="hljs-number">0x1afb509f4</span> &lt;+<span class="hljs-number">84</span>&gt;:  cmp    x9, x1
